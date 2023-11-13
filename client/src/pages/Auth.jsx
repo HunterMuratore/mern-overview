@@ -5,28 +5,34 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router";
 
 const initialFormData = {
     email: '',
     password: ''
 }
 
-function Auth({ isLogin }) {
+function Auth({ isLogin, setUser }) {
     const [formData, setFormData] = useState(initialFormData)
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        try {
-            const user = await axios.post('/auth/register', formData)
+        const route = isLogin ? 'login' : 'register'
 
-            console.log(user)
+        try {
+            const res = await axios.post(`/auth/${route}`, formData)
+
+            setUser(res.data)
+
+            navigate('/')
         } catch (err) {
             console.log(err)
         }
 
-        setFormData({...initialFormData})
+        setFormData({ ...initialFormData })
     }
 
     const handleInputChange = (e) => {
@@ -42,7 +48,12 @@ function Auth({ isLogin }) {
                 <h2 className="text-center mt-5">{isLogin ? 'Log In' : 'Register'}</h2>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" name="email" onChange={handleInputChange} placeholder="Enter email" />
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Enter email" />
                     <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
                     </Form.Text>
@@ -50,7 +61,12 @@ function Auth({ isLogin }) {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" onChange={handleInputChange} placeholder="Password" />
+                    <Form.Control
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="Password" />
                 </Form.Group>
                 <div className='nav-control mb-3 d-flex'>
                     {isLogin ? (

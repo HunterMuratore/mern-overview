@@ -19,9 +19,9 @@ function App() {
 
       <Container>
         <Routes>
-          <Route path='/' element={<Landing />}></Route>
-          <Route path='/register' element={<Auth isLogin={false} />}></Route>
-          <Route path='/login' element={<Auth isLogin={true} />}></Route>
+          <Route path='/' element={<Landing user={user}/>}></Route>
+          <Route path='/register' element={<Auth isLogin={false} setUser={setUser} />}></Route>
+          <Route path='/login' element={<Auth isLogin={true} setUser={setUser} />}></Route>
 
           <Route path='*' element={<NotFound />}></Route>
         </Routes>

@@ -23,7 +23,7 @@ function Header({ user }) {
                             <NavLink to="/">Home</NavLink>
                             {user ? (
                                 <>
-                                    <p>hunter@test.com</p>
+                                    <p>{user.email}</p>
                                     <a href="/logout" onClick={logout}>Log Out</a>
                                 </>
                             ) : (
