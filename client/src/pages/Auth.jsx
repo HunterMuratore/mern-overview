@@ -46,20 +46,17 @@ function Auth({ isLogin, setUser }) {
             <Form onSubmit={handleSubmit}>
                 <h2 className="text-center mt-5">{isLogin ? 'Log In' : 'Register'}</h2>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>Email Address:</Form.Label>
                     <Form.Control
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="Enter email" />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Password:</Form.Label>
                     <Form.Control
                         type="password"
                         name="password"
