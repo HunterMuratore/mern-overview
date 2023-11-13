@@ -19,4 +19,7 @@ router.get('/users', user_controller.getUsers);
 // Protected test route
 router.get('/protected', isAuthenticated, user_controller.protected);
 
+// Check if the user has a JWT
+router.get('/authenticate', user_controller.authenticate);
+
 module.exports = router; 

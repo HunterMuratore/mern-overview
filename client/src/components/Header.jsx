@@ -1,15 +1,24 @@
+import axios from 'axios'
+
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
 import { useMediaQuery } from 'react-responsive';
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-function Header({ user }) {
-    const isMobile = useMediaQuery({ query: '(max-width: 990px)' });
+function Header({ user, setUser }) {
+    const navigate = useNavigate()
+    const isMobile = useMediaQuery({ query: '(max-width: 990px)' })
 
-    const logout = (e) => {
-        e.preventDefault();
+    const logout = async (e) => {
+        e.preventDefault()
+
+        await axios.get('/auth/logout')
+
+        setUser(null)
+
+        navigate('/')
     }
 
     return (
@@ -24,7 +33,7 @@ function Header({ user }) {
                             {user ? (
                                 <>
                                     <p>{user.email}</p>
-                                    <a href="/logout" onClick={logout}>Log Out</a>
+                                    <a href="/" onClick={logout}>Log Out</a>
                                 </>
                             ) : (
                                 <>

@@ -14,6 +14,7 @@ const initialFormData = {
 
 function Auth({ isLogin, setUser }) {
     const [formData, setFormData] = useState(initialFormData)
+    const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
@@ -25,10 +26,11 @@ function Auth({ isLogin, setUser }) {
             const res = await axios.post(`/auth/${route}`, formData)
 
             setUser(res.data)
-
+            setErrorMessage('')
+            
             navigate('/')
         } catch (err) {
-            console.log(err)
+            setErrorMessage(err.response.data.message)
         }
 
         setFormData({ ...initialFormData })
@@ -45,6 +47,9 @@ function Auth({ isLogin, setUser }) {
         <>
             <Form onSubmit={handleSubmit}>
                 <h2 className="text-center mt-5">{isLogin ? 'Log In' : 'Register'}</h2>
+
+                {errorMessage ? <p className='text-center text-danger-emphasis mt-2'>{errorMessage}</p> : ''}
+
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email Address:</Form.Label>
                     <Form.Control
