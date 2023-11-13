@@ -67,6 +67,13 @@ module.exports = user_controller = {
             user: req.user,
             authenticated: true
         });
+    },
+    logout(req, res) {
+        res.clearCookie('token');
+
+        res.send({
+            message: "User logged out successfully."
+        })
     }
 
 };

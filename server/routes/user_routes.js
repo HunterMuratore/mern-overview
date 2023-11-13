@@ -10,6 +10,9 @@ router.post('/register', user_controller.register);
 // Login user
 router.post('/login', user_controller.login);
 
+// Logout user
+router.get('/logout', user_controller.logout);
+
 // Get all users
 router.get('/users', user_controller.getUsers);
 
