@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3333;
+const is_prod = process.env.NODE_ENV === 'production';
+const path = require('path');
 
 require('dotenv').config()
 
@@ -12,6 +14,12 @@ const db = require('./config/connection');
 
 // Load JSON Middleware
 app.use(express.json());
+
+// Share dist folder files when in production only
+if (is_prod) {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+}
+
 // Load cookie Middleware
 app.use(cookieParser());
 
