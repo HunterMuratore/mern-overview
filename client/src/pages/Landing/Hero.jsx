@@ -3,7 +3,11 @@ const heroStyles = {
     
 }
 
-function Hero({ user }) {
+import { useStore } from '../../store'
+
+function Hero() {
+    const { user } = useStore() 
+
     return (
         <div style={heroStyles}>
             <h1>{user ? `Welcome back, ${user.email}` : 'Welcome to my Auth App'}</h1>

@@ -12,7 +12,10 @@ const initialFormData = {
     password: ''
 }
 
-function Auth({ isLogin, setUser }) {
+import { useStore } from '../store'
+
+function Auth({ isLogin }) {
+    const { setState } = useStore()
     const [formData, setFormData] = useState(initialFormData)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
@@ -25,7 +28,10 @@ function Auth({ isLogin, setUser }) {
         try {
             const res = await axios.post(`/auth/${route}`, formData)
 
-            setUser(res.data)
+            setState(oldState => ({
+                ...oldState,
+                user: res.data
+            }))
             setErrorMessage('')
             
             navigate('/')

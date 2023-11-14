@@ -5,11 +5,12 @@ const landingStyles = {
     padding: '5px'
 }
 
-function Landing({ user }) {
+function Landing() {
+
     return (
         <>
             <div style={landingStyles} className="text-center mt-5">
-                <Hero user={user}></Hero>
+                <Hero />
             </div>
         </>
     )

@@ -7,7 +7,10 @@ import Container from 'react-bootstrap/Container'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive';
 
-function Header({ user, setUser }) {
+import { useStore } from '../store'
+
+function Header() {
+    const { user, setState } = useStore() 
     const navigate = useNavigate()
     const isMobile = useMediaQuery({ query: '(max-width: 990px)' })
 
@@ -16,7 +19,10 @@ function Header({ user, setUser }) {
 
         await axios.get('/auth/logout')
 
-        setUser(null)
+        setState(oldState => ({
+            ...oldState,
+            user: null
+        }))
 
         navigate('/')
     }
