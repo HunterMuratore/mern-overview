@@ -23,15 +23,15 @@ if (is_prod) {
 // Load cookie Middleware
 app.use(cookieParser());
 
+// Load routes
+app.use('/auth', user_routes);
+
 // For every other route send back the index.html
 if (is_prod) {
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../client/dist/index.html'))
     });
 }
-
-// Load routes
-app.use('/auth', user_routes);
 
 db.once('open', () => {
     console.log('Database Connected!');
