@@ -3,9 +3,9 @@ import axios from 'axios'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
-import { useMediaQuery } from 'react-responsive';
 
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useMediaQuery } from 'react-responsive';
 
 function Header({ user, setUser }) {
     const navigate = useNavigate()
