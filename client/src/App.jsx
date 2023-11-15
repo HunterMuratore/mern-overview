@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
-
 import { useState, useEffect } from 'react'
+import { useQuery, gql } from '@apollo/client'
 
 import axios from 'axios'
 
@@ -14,22 +14,37 @@ import NotFound from './pages/NotFound'
 
 import { useStore } from './store'
 
-function App() {
-  const { setState } = useStore()
-  const [loading, setLoading] = useState(true)
+const GET_ALL_USERS = gql`
+  query {
+    getAllUsers {
+      email
+  }
+}
+`
 
-  useEffect(() => {
-    axios.get('/auth/authenticate')
-      .then(res => {
-        setState((oldState) => {
-          return {
-            ...oldState,
-            user: res.data.user
-          }
-        })
-        setLoading(false)
-      })
-  }, [])
+function App() {
+  const { loading, error, data } = useQuery(GET_ALL_USERS);
+  const { setState } = useStore()
+  // const [loading, setLoading] = useState(true)
+
+  if (error) {
+    console.log(error)
+  }
+
+  console.log(data)
+
+  // useEffect(() => {
+  //   axios.get('/auth/authenticate')
+  //     .then(res => {
+  //       setState((oldState) => {
+  //         return {
+  //           ...oldState,
+  //           user: res.data.user
+  //         }
+  //       })
+  //       setLoading(false)
+  //     })
+  // }, [])
 
   return (
     <>
