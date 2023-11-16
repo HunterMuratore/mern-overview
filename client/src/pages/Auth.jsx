@@ -1,45 +1,73 @@
 import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
+import { useStore } from '../store'
+
+import { useMutation, gql } from '@apollo/client'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-
-import { NavLink, useNavigate } from 'react-router-dom'
 
 const initialFormData = {
     email: '',
     password: ''
 }
 
-import { useStore } from '../store'
+const REGISTER_USER = gql`
+    mutation RegisterUser($email: String!, $password: String!) {
+        register(email: $email, password: $password) {
+            _id
+            email
+            hobbies {
+                _id
+                name
+            }
+        }
+    }
+`
+
+const LOGIN_USER = gql`
+    mutation LoginUser($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            _id
+            email
+            hobbies {
+                _id
+                name
+            }
+        }
+    }
+`
 
 function Auth({ isLogin }) {
     const { setState } = useStore()
     const [formData, setFormData] = useState(initialFormData)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
+    const [authenticateUser] = useMutation(isLogin ? LOGIN_USER : REGISTER_USER, {
+        variables: formData
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const route = isLogin ? 'login' : 'register'
-
         try {
-            const res = await axios.post(`/auth/${route}`, formData)
+            const resolverName = isLogin ? 'login' : 'register'
+
+            const { data: userData } = await authenticateUser()
+
+            setFormData({ ...initialFormData })
 
             setState(oldState => ({
                 ...oldState,
-                user: res.data
+                user: userData[resolverName]
             }))
             setErrorMessage('')
-            
+
             navigate('/')
         } catch (err) {
-            setErrorMessage(err.response.data.message)
+            setErrorMessage(err.message)
         }
-
-        setFormData({ ...initialFormData })
     }
 
     const handleInputChange = (e) => {

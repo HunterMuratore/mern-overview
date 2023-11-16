@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { useMutation, gql } from '@apollo/client';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -9,7 +9,14 @@ import { useMediaQuery } from 'react-responsive';
 
 import { useStore } from '../store'
 
+const LOGOUT_USER = gql`
+    mutation {
+        logout
+    }
+`
+
 function Header() {
+    const [ logoutUser ] = useMutation(LOGOUT_USER)
     const { user, setState } = useStore() 
     const navigate = useNavigate()
     const isMobile = useMediaQuery({ query: '(max-width: 990px)' })
@@ -17,7 +24,7 @@ function Header() {
     const logout = async (e) => {
         e.preventDefault()
 
-        await axios.get('/auth/logout')
+        await logoutUser()
 
         setState(oldState => ({
             ...oldState,

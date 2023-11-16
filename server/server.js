@@ -14,6 +14,7 @@ require('dotenv').config();
 const db = require('./config/connection');
 
 const { typeDefs, resolvers } = require('./schema');
+const { authenticate } = require('./auth');
 
 const server = new ApolloServer({
     typeDefs,
@@ -35,13 +36,9 @@ async function startServer() {
     app.use(cookieParser());
 
     // Set up graphql routes to handle all of the api routes
+    // Make sure the user's cookie is being sent through in every server request 
     app.use('/graphql', expressMiddleware(server, {
-        context(serverData) {
-            return {
-                req: serverData.req,
-                res: serverData.res
-            }
-        }
+        context: authenticate
     }));
 
     // Trigger React router to handle all routing outside of our auth routes
