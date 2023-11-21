@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "cd ./server && npm run seed",
     "dev:client": "cd ./client && npm run dev",
     "dev:server": "cd ./server && npm run start:dev",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",

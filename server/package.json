@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "seed": "cd ./config && node seed.js",
     "start": "node server.js",
     "start:dev": "npx nodemon server.js"
   },
@@ -21,6 +22,7 @@
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "nodemon": "^3.0.1"
   }
 }
